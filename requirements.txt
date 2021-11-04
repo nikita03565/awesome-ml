@@ -1,0 +1,8 @@
+anyio==3.3.4
+fastapi==0.70.0
+idna==3.3
+pkg_resources==0.0.0
+pydantic==1.8.2
+sniffio==1.2.0
+starlette==0.16.0
+typing-extensions==3.10.0.2
