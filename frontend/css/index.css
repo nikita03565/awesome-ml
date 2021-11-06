@@ -2,14 +2,14 @@ h1 {
   margin: 5px;
 }
 
-#submit-button {
-  background-color: #8ac858 !important
+.btn {
+  background-color: #8ac858
 }
 
-#text-input {
+.text-field {
   margin: 5px
 }
 
-#navbar {
-  background-color: #8ac858 !important
+.navbar {
+  background-color: #8ac858
 }
