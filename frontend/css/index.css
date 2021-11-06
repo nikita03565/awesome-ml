@@ -1,9 +1,13 @@
+:root {
+  --green: #8ac858
+}
+
 h1 {
   margin: 5px;
 }
 
 .btn {
-  background-color: #8ac858
+  background-color: var(--green)
 }
 
 .text-field {
@@ -11,5 +15,5 @@ h1 {
 }
 
 .navbar {
-  background-color: #8ac858
+  background-color: var(--green)
 }
