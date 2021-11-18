@@ -11,3 +11,9 @@ To start mlflow server use command:
 ```
 make start-mlflow
 ```
+
+To train model use command:
+```
+make train
+```
+Note: `data` dir should be located in project root (for now).
