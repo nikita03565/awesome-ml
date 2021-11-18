@@ -32,7 +32,7 @@ def start_scraper():
     session.headers.update(default_headers)
     # We want to continue from the date that we have stopped on. Find the least start date from existing files for that
     files = sorted(os.listdir(output_dir))
-    countdown_start = 4835  # 28 March 2021
+    countdown_start = 5000  # 9 September 2021
     if files:
         countdown_start = int(files[0].split("_")[0])
 

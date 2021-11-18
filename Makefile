@@ -10,3 +10,11 @@ start-mlflow:
 .PHONY: train
 train:
 	python predictor/train.py
+
+.PHONY: collect-data
+collect-data:
+	PYTHONPATH=. python scraper/main.py
+
+.PHONY: parse-data
+parse-data:
+	PYTHONPATH=. python scraper/parse.py
