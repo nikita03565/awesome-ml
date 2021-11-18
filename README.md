@@ -17,3 +17,13 @@ To train model use command:
 make train
 ```
 Note: `data` dir should be located in project root (for now).
+
+To collect data use command:
+```
+make collect-data
+```
+
+To parse data use command:
+```
+make parse-data
+```
