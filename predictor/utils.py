@@ -11,6 +11,7 @@ class Porter:
     """
     Porter stemmer implementation
     """
+
     PERFECTIVEGROUND = re.compile("((ив|ивши|ившись|ыв|ывши|ывшись)|((?<=[ая])(в|вши|вшись)))$")
     REFLEXIVE = re.compile("(с[яь])$")
     ADJECTIVE = re.compile("(ее|ие|ые|ое|ими|ыми|ей|ий|ый|ой|ем|им|ым|ом|его|ого|ему|ому|их|ых|ую|юю|ая|яя|ою|ею)$")
