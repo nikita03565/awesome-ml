@@ -30,3 +30,32 @@ To parse data use command:
 ```
 make parse-data
 ```
+
+# Airflow setup
+1. Run command:
+```
+pip install apache-airflow==2.0.1 --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.0.1/constraints-3.7.txt"
+```
+
+2. Run command:
+```
+make setup-airflow
+```
+
+3. Open `airflow.cfg` and add/edit lines:
+```
+[webserver]
+rbac = True
+```
+and
+```
+load_examples = False
+```
+4. Run command
+```
+make create-airflow-user
+```
+5. And finally run command:
+```
+make start-airflow
+```

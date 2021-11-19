@@ -145,5 +145,5 @@ data/
 results/
 parsed/
 mlruns/
-
+airflow/
 */config.yaml
