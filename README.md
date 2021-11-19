@@ -5,3 +5,28 @@ To run backend create venv, install requirements and use commands:
 cd backend
 uvicorn main:app --reload
 ```
+
+
+To start mlflow server use command:
+```
+make start-mlflow
+```
+
+Also create `confing.yaml` file in `predictor` directory using contents of `config_example.yaml` file. 
+Change any values as you wish.
+
+To train model use command:
+```
+make train
+```
+Note: `data` dir should be located in project root (for now).
+
+To collect data use command:
+```
+make collect-data
+```
+
+To parse data use command:
+```
+make parse-data
+```

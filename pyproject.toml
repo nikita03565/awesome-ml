@@ -8,9 +8,8 @@ exclude = '''
   | .github/*
   | _scripts/*
   | venv/*
-)/
-| ^/atmocube/settings.py
-| ^/manage.py
+  | mlflow/*
+)
 '''
 [tool.isort]
 line_length = 120
