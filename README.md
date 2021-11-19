@@ -50,7 +50,9 @@ rbac = True
 and
 ```
 load_examples = False
+dags_folder = ../dags
 ```
+
 4. Run command
 ```
 make create-airflow-user

@@ -9,8 +9,10 @@ from tqdm import tqdm
 
 MIN_CHARS = 2000
 
-dir_name = "results"
-output_dir = "parsed"
+
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+dir_name = os.path.join(parent_dir, "results")
+output_dir = os.path.join(parent_dir, "parsed")
 
 
 def clean(s):

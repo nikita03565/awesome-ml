@@ -16,10 +16,15 @@ search_url = "https://pikabu.ru/search?d={day_start}&D={day_end}&page={page}"
 # Long stories (aka Длиннопост)
 search_with_tag_url = "https://pikabu.ru/tag/%D0%94%D0%BB%D0%B8%D0%BD%D0%BD%D0%BE%D0%BF%D0%BE%D1%81%D1%82?d={day_start}&D={day_end}&page={page}"
 
-output_dir = "results"
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+output_dir = os.path.join(parent_dir, "results")
 file_name = "{start}_{end}_{page}.json"
 days_step = 1
 earliest_date = 943
+
+
+
+max_iterations = 10
 
 
 def start_scraper():
@@ -27,6 +32,7 @@ def start_scraper():
     This function requests html page from a given url in a loop,
     extracts content of <article> tag and saves result as a list in json file.
     """
+    global n_iterations
     Path(output_dir).mkdir(exist_ok=True)
     session = requests.session()
     session.headers.update(default_headers)
@@ -38,10 +44,14 @@ def start_scraper():
 
     start = countdown_start - days_step
     end = countdown_start - 1
-
+    n_iterations = 0
     while start > earliest_date:
         logger.debug(f"Searching in {start} - {end} range")
         for page in range(1, 100):
+            if n_iterations > max_iterations:
+                # THIS WAS MADE FOR TESTING PURPOSES ONLY
+                raise SystemExit
+            n_iterations += 1
             url = search_with_tag_url.format(day_start=start, day_end=end, page=page)
             logger.debug(f"Sending request to {url}")
             try:
@@ -62,7 +72,7 @@ def start_scraper():
             f_name = file_name.format(start=start, end=end, page=page)
             with open(os.path.join(output_dir, f_name), "w", encoding="utf-8") as f:
                 f.write(json.dumps(articles))
-                logger.debug(f"Saved results in {f_name}")
+                logger.debug(f"Saved results in {os.path.join(output_dir, f_name)}")
         start = start - days_step
         end = end - days_step
 
