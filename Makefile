@@ -9,7 +9,12 @@ start-mlflow:
 
 .PHONY: train
 train:
-	python predictor/train.py
+	PYTHONPATH=. python predictor/train.py
+
+.PHONY: test-predict
+test-predict:
+	PYTHONPATH=. python predictor/test_predict.py
+
 
 .PHONY: collect-data
 collect-data:

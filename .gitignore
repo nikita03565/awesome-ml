@@ -144,3 +144,6 @@ mlflow/
 data/
 results/
 parsed/
+mlruns/
+
+*/config.yaml

@@ -12,6 +12,9 @@ To start mlflow server use command:
 make start-mlflow
 ```
 
+Also create `confing.yaml` file in `predictor` directory using contents of `config_example.yaml` file. 
+Change any values as you wish.
+
 To train model use command:
 ```
 make train

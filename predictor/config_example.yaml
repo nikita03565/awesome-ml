@@ -1,0 +1,7 @@
+global:
+  mlflow_uri: http://localhost:5000
+predict:
+  version: 2
+train:
+  experiment_name: my_experiment
+  model_name: Regression

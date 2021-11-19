@@ -5,6 +5,7 @@ from collections import Counter
 import nltk
 import pandas as pd
 from pymystem3 import Mystem
+from mlflow.tracking import MlflowClient
 
 
 class Porter:
@@ -118,3 +119,22 @@ def perform_stem(data_path, save_path):
     df["text"] = df.apply(lambda row: stem_text(row["text"]), axis=1)  # overrides text
     df.to_csv(save_path, encoding="utf-8", index=False)
     return df
+
+
+def get_version_model(model_name):
+    """
+    Gets latest versions of model
+    """
+    client = MlflowClient()
+    models = {}
+    for idx, value in enumerate(client.search_model_versions(f"name='{model_name}'")):
+        models[idx] = value
+    return dict(list(models.items())[-1][1])["version"]
+
+
+def get_production_model_version(model_name):
+    client = MlflowClient()
+    for rm in client.search_model_versions(f"name='{model_name}'"):
+        if rm.current_stage == "Production":
+            return rm.version
+    return None
