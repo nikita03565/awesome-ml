@@ -57,7 +57,8 @@ dags_folder = ../dags
 ```
 make create-airflow-user
 ```
-5. And finally run command:
+5. And finally run commands in separete terminals:
 ```
 make start-airflow
+make start-airflow-scheduler
 ```
