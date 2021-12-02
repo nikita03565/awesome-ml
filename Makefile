@@ -41,8 +41,12 @@ test-predict:
 
 .PHONY: collect-data
 collect-data:
-	PYTHONPATH=. python scraper/main.py
+	PYTHONPATH=. python scraper/collect.py
 
 .PHONY: parse-data
 parse-data:
 	PYTHONPATH=. python scraper/parse.py
+
+.PHONY: prepare-data
+prepare-data:
+	PYTHONPATH=. python predictor/prepare.py

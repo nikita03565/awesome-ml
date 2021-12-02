@@ -147,3 +147,5 @@ parsed/
 mlruns/
 airflow/
 */config.yaml
+
+*/*/predictions

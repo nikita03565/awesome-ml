@@ -15,16 +15,16 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 with DAG(
-        'collect-data',
+        'prepare-data',
         default_args=default_args,
-        description='Collects html pages from pikabu',
+        description='Lemmatizing and stemming test from csv',
         schedule_interval=timedelta(days=1),
         start_date=days_ago(2),
-        tags=['collect'],
+        tags=['prepare'],
 ) as dag:
     t = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    scraper_path = os.path.join(t, "scraper", "collect.py")
+    parser_path = os.path.join(t, "predictor", "prepare.py")
     t1 = BashOperator(
-        task_id='run-scraper',
-        bash_command=f'PYTHONPATH={t} python {scraper_path}',
+        task_id='run-prepare',
+        bash_command=f'PYTHONPATH={t} python {parser_path}',
     )

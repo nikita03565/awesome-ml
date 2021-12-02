@@ -11,8 +11,8 @@ MIN_CHARS = 2000
 
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-dir_name = os.path.join(parent_dir, "results")
-output_dir = os.path.join(parent_dir, "parsed")
+dir_name = os.path.join(parent_dir, "data", "json")
+output_dir = os.path.join(parent_dir, "data", "parsed")
 
 
 def clean(s):
