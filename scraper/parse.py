@@ -82,6 +82,7 @@ def parse_post(el):
     if len(cleaned_text) < MIN_CHARS:
         return None
     tags_elements = el.xpath("//article//div[contains(@class, 'story__tags')]/a")
+    author_elements = el.xpath("//header//a[contains(@class, 'user__nick')]")
     return {
         "id": el.attrib["data-story-id"],
         "data-story-long": el.attrib["data-story-long"],
@@ -92,7 +93,7 @@ def parse_post(el):
         "dtm": get_dtm(el),
         "saves": get_saves(el),
         "views": get_views(el),
-        "author_name": el.xpath("//header//a[contains(@class, 'user__nick')]")[0].text_content().strip(),
+        "author_name": author_elements[0].text_content().strip() if author_elements else None,
         "title": el.xpath("//header//h2/a")[0].text_content().replace("\xc2\xa0", " ").replace("\xa0", " ").strip(),
         "tags": [te.text_content().strip() for te in tags_elements],
         "text": cleaned_text,
@@ -108,6 +109,7 @@ def parse():
     ids = set()  # Save ids in set in order to not allow duplicates in output file
     res = []
     for file in tqdm(files):
+        print('processing', file)
         with open(os.path.join(dir_name, file), "r", encoding="utf-8") as f:
             content = f.read()
         articles_raw = json.loads(content)
