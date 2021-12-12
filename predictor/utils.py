@@ -93,7 +93,7 @@ def lem(text):
     text = " ".join(tokens) 
     return text
 
-def stam(text):
+def stem(text):
     return " ".join(Porter.stem(w) for w in text.split())
 
 def get_version_model(model_name):

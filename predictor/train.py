@@ -19,15 +19,16 @@ local_path = os.path.join(parent_dir, "predictor", "train.py")
 
 config = yaml.safe_load(open(config_path))["train"]
 global_config = yaml.safe_load(open(config_path))["global"]
+params_config = yaml.safe_load(open(config_path))["params"]
 
 
 def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv")):
     df = pd.read_csv(filename)
-    df_stam = df[["text_stam", "rating"]].dropna()
-    X, y = df_stam["text_stam"], df_stam["rating"]
+    df_stem = df[["text_stem", "rating"]].dropna()
+    X, y = df_stem["text_stem"], df_stem["rating"]
 
     tfidfconverter = TfidfTransformer()
-    vectorizer = CountVectorizer(max_features=1000, min_df=5, max_df=0.7)
+    vectorizer = CountVectorizer(max_features=params_config['max_features'], min_df=params_config['min_df'], max_df=params_config['max_df'])
     X_countVectorizer = vectorizer.fit_transform(X).toarray()
     X_tfIdf = tfidfconverter.fit_transform(X_countVectorizer).toarray()
     X_train, X_test, y_train, y_test = train_test_split(X_tfIdf, y, test_size=0.2, random_state=0)
@@ -35,7 +36,7 @@ def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv"))
     mlflow.set_tracking_uri(global_config["mlflow_uri"])
     mlflow.set_experiment(config["experiment_name"])
     with mlflow.start_run():
-        reg = CatBoostRegressor(iterations=100, learning_rate=0.1, depth=8, verbose=False).fit(X_train, y_train)
+        reg = CatBoostRegressor(iterations=params_config['iterations'], learning_rate=params_config['learning_rate'], depth=params_config['depth'], verbose=params_config['verbose']).fit(X_train, y_train)
         y_pred = reg.predict(X_test)
         mse = mean_squared_error(y_test, y_pred)
         mae = mean_absolute_error(y_test, y_pred)
