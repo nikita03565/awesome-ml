@@ -141,6 +141,7 @@ dmypy.json
 .npmrc
 
 mlflow/
+catboost_info/
 data/
 results/
 parsed/

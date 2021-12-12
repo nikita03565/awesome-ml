@@ -15,6 +15,8 @@ from predictor.utils import get_version_model
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 config_path = os.path.join(parent_dir, "predictor", "config.yaml")
 
+local_path = os.path.join(parent_dir, "predictor", "train.py")
+
 config = yaml.safe_load(open(config_path))["train"]
 global_config = yaml.safe_load(open(config_path))["global"]
 
@@ -38,12 +40,12 @@ def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv"))
         mse = mean_squared_error(y_test, y_pred)
         mae = mean_absolute_error(y_test, y_pred)
         # Log any metrics you want here
-        mlflow.log_param("mse", mse)
-        mlflow.log_param("mae", mae)
+        mlflow.log_metric("mse", mse)
+        mlflow.log_metric("mae", mae)
         # Log the model itself
         mlflow.sklearn.log_model(reg, artifact_path="regression", registered_model_name=config["model_name"])
         # And code that's been used to create model
-        mlflow.log_artifact(local_path="predictor/train.py", artifact_path="code")
+        mlflow.log_artifact(local_path=local_path, artifact_path="code")
         mlflow.end_run()
 
     last_model_version = get_version_model(config["model_name"])
