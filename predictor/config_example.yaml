@@ -5,3 +5,12 @@ predict:
 train:
   experiment_name: my_experiment
   model_name: Regression
+  count_vect_params:
+    max_df: 0.7
+    max_features: 1000
+    min_df: 5
+  catboost_params:
+    depth: 8
+    iterations: 100
+    learning_rate: 0.1
+    verbose: false

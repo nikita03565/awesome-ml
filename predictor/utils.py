@@ -1,12 +1,15 @@
 import re
-from ast import literal_eval
 from collections import Counter
 
 import nltk
 import pandas as pd
 from pymystem3 import Mystem
 from mlflow.tracking import MlflowClient
+from string import punctuation
 
+nltk.download("stopwords")
+mystem = Mystem()
+russian_stopwords = set(nltk.corpus.stopwords.words("russian"))
 
 class Porter:
     """
@@ -81,45 +84,17 @@ def text_values_count(texts):
     return res
 
 
-def perform_lemmatization(data_path, save_path):
-    """
-    Performs lemmatization operation and removes stopwords.
-    :param data_path: path to input csv file
-    :param save_path: path to csv file to save
-    :return: Pandas dataframe with processed text
-    """
-    df = pd.read_csv(data_path, parse_dates=["dtm"], converters={"tags": literal_eval})
-    nltk.download("stopwords")
-    mystem = Mystem()
-    russian_stopwords = set(nltk.corpus.stopwords.words("russian"))
+def lem(text):
+    tokens = mystem.lemmatize(text.lower())
+    tokens = [token for token in tokens if token not in russian_stopwords\
+            and token != " " \
+            and token.strip() not in punctuation]
+    
+    text = " ".join(tokens) 
+    return text
 
-    def process_text(text):
-        lemmas = mystem.lemmatize(text)
-        return "".join((l for l in lemmas if l not in russian_stopwords))
-
-    df["text"] = df.apply(lambda row: process_text(row["text"]), axis=1)  # overrides text
-
-    df.to_csv(save_path, encoding="utf-8", index=False)
-
-    return df
-
-
-def perform_stem(data_path, save_path):
-    """
-    Performs stemming operation. Expects lemmatized texts.
-    :param data_path: path to input csv file
-    :param save_path: path to csv file to save
-    :return: Pandas dataframe with processed text
-    """
-
-    def stem_text(text):
-        return " ".join(Porter.stem(w) for w in text.split())
-
-    df = pd.read_csv(data_path, parse_dates=["dtm"], converters={"tags": literal_eval})
-    df["text"] = df.apply(lambda row: stem_text(row["text"]), axis=1)  # overrides text
-    df.to_csv(save_path, encoding="utf-8", index=False)
-    return df
-
+def stem(text):
+    return " ".join(Porter.stem(w) for w in text.split())
 
 def get_version_model(model_name):
     """

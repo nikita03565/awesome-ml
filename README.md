@@ -31,6 +31,11 @@ To parse data use command:
 make parse-data
 ```
 
+To prepare (stem/lem) data use command:
+```
+make prepare-data
+```
+
 # Airflow setup
 1. Run command:
 ```

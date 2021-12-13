@@ -17,7 +17,7 @@ search_url = "https://pikabu.ru/search?d={day_start}&D={day_end}&page={page}"
 search_with_tag_url = "https://pikabu.ru/tag/%D0%94%D0%BB%D0%B8%D0%BD%D0%BD%D0%BE%D0%BF%D0%BE%D1%81%D1%82?d={day_start}&D={day_end}&page={page}"
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-output_dir = os.path.join(parent_dir, "results")
+output_dir = os.path.join(parent_dir, "data", "json")
 file_name = "{start}_{end}_{page}.json"
 days_step = 1
 earliest_date = 943

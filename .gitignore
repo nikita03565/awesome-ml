@@ -141,9 +141,12 @@ dmypy.json
 .npmrc
 
 mlflow/
+catboost_info/
 data/
 results/
 parsed/
 mlruns/
 airflow/
 */config.yaml
+
+*/*/predictions
