@@ -20,7 +20,7 @@ predict_config = config_path["predict"]
 
 count_vect_params = config["count_vect_params"]
 catboost_params = config["catboost_params"]
-curdir = os.curdir
+
 def get_prediction(article_text: str):
     stem_text = pd.Series(data=stem(article_text))
     tfidfconverter = TfidfTransformer()
@@ -40,14 +40,13 @@ def get_prediction(article_text: str):
         print("model_name ", model_name)
         print("latest_version ", latest_version)
     
-        # не хочет работать
-        os.chdir(parent_dir)
-        loaded_model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{latest_version}")
-        os.chdir(curdir)
+        # не хочет работать 
+        # loaded_model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{latest_version}")
+
         # работает
         # loaded_model = mlflow.pyfunc.load_model(model_uri=os.path.join(parent_dir, "mlflow", "1", "1d847a48016e4392943c6cb48e0418ab", "artifacts", "regression"))
 
-        # loaded_model = mlflow.pyfunc.load_model(model_uri=predict_config["model_path"])
+        loaded_model = mlflow.pyfunc.load_model(model_uri=predict_config["model_path"])
         test_predictions = loaded_model.predict(X_tfIdf)
 
         return test_predictions[0]
