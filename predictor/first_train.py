@@ -21,12 +21,13 @@ global_config = yaml.safe_load(open(config_path))["global"]
 
 count_vect_params = config["count_vect_params"]
 catboost_params = config["catboost_params"]
+data_params = config['data_params']
 
 data_path = os.path.join(parent_dir, "data", "data_default")
 
 
 def train():
-    df = pd.read_csv(os.path.join(data_path, "data.csv"), nrows=200)
+    df = pd.read_csv(os.path.join(data_path, "data.csv"), nrows=data_params['nrows'])
     df_stem = df[["text_stem", "rating"]].dropna()
     X, y = df_stem["text_stem"], df_stem["rating"]
 
@@ -35,7 +36,7 @@ def train():
                                  max_df=count_vect_params['max_df'])
     X_countVectorizer = vectorizer.fit_transform(X).toarray()
     X_tfIdf = tfidfconverter.fit_transform(X_countVectorizer).toarray()
-    X_train, X_test, y_train, y_test = train_test_split(X_tfIdf, y, test_size=0.2, random_state=0)
+    X_train, X_test, y_train, y_test = train_test_split(X_tfIdf, y, test_size=data_params['test_size'], random_state=0)
 
     mlflow.set_tracking_uri(global_config["mlflow_uri"])
     mlflow.set_experiment(config["experiment_name"])

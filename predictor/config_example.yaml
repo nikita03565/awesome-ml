@@ -3,6 +3,9 @@ global:
 predict:
   version: 8
 train:
+  data_params:
+    nrows: 200
+    test_size: 0.2
   catboost_params:
     depth: 8
     iterations: 100
