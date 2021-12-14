@@ -1,7 +1,7 @@
 global:
   mlflow_uri: http://localhost:5000
 predict:
-  version: 2
+  version: 8
 train:
   catboost_params:
     depth: 8
@@ -12,5 +12,5 @@ train:
     max_df: 0.7
     max_features: 1000
     min_df: 5
-  experiment_name: first_train
+  experiment_name: my_experiment
   model_name: Regression
