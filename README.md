@@ -17,7 +17,7 @@ Change any values as you wish.
 Note: `data` dir should be located in project root (for now).
 
 For first train:
-- get train data from [data link](https://drive.google.com/file/d/1CUFGUZZWPu3BW1_in75HNgoWe_fz078z/view?usp=sharing)
+- get train data (135375 rows) from [data link](https://drive.google.com/file/d/1CUFGUZZWPu3BW1_in75HNgoWe_fz078z/view?usp=sharing)
 - create `data_default` in `data` dir
 - use command:
 ```
