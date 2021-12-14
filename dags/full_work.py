@@ -27,7 +27,7 @@ with DAG(
     scraper_path = os.path.join(t, "scraper", "collect.py")
     t1 = BashOperator(
         task_id='run-scraper',
-        bash_command=f'PYTHONPATH={t} python3 {scraper_path}',
+        bash_command=f'PYTHONPATH={t} python {scraper_path}',
     )
 
     parser_path = os.path.join(t, "scraper", "parse.py")
