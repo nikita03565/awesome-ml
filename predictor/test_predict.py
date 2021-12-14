@@ -12,7 +12,8 @@ from predictor.utils import get_production_model_version
 # dirty file for testing purpose
 # contains example of model loading
 
-config_path = os.path.join("predictor", "config.yaml")
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+config_path = os.path.join(parent_dir, "predictor", "config.yaml")
 
 config = yaml.safe_load(open(config_path))
 mlflow_root = "mlflow"
@@ -26,7 +27,7 @@ if __name__ == "__main__":
     model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{latest_version}")
 
     #####
-    filename = os.path.join("data", "data.csv")
+    filename = os.path.join("data", "prepared", "prepared.csv")
     df = pd.read_csv(filename, nrows=1000)
     df_lem = df[["text_lem", "rating"]].dropna()
     X, y = df_lem["text_lem"], df_lem["rating"]

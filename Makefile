@@ -39,6 +39,10 @@ train:
 test-predict:
 	PYTHONPATH=. python predictor/test_predict.py
 
+.PHONY: predict
+predict:
+	PYTHONPATH=. python predictor/predict.py
+
 .PHONY: collect-data
 collect-data:
 	PYTHONPATH=. python scraper/collect.py
