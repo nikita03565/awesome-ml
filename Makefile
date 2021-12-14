@@ -33,7 +33,7 @@ start-airflow-scheduler:
 
 .PHONY: first-train
 first-train:
-    PYTHONPATH=. python predictor/first_train.py
+	PYTHONPATH=. python predictor/first_train.py
 
 .PHONY: train
 train:
