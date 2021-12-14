@@ -41,12 +41,13 @@ def get_prediction(article_text: str):
         print("latest_version ", latest_version)
     
         # не хочет работать 
-        loaded_model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{latest_version}")
+        # loaded_model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{latest_version}")
 
         # работает
         # loaded_model = mlflow.pyfunc.load_model(model_uri=os.path.join(parent_dir, "mlflow", "1", "1d847a48016e4392943c6cb48e0418ab", "artifacts", "regression"))
+
+        loaded_model = mlflow.pyfunc.load_model(model_uri=predict_config["model_path"])
         test_predictions = loaded_model.predict(X_tfIdf)
-        # mlflow.log_param("test_predictions", test_predictions)
 
         return test_predictions[0]
 
