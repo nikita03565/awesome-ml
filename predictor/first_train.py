@@ -47,6 +47,7 @@ def train():
         y_pred = reg.predict(X_test)
         mse = mean_squared_error(y_test, y_pred)
         mae = mean_absolute_error(y_test, y_pred)
+        reg.save_model('model')
         # Log any metrics you want here
         mlflow.log_metric("mse", mse)
         mlflow.log_metric("mae", mae)
