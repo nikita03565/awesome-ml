@@ -31,6 +31,10 @@ start-airflow-scheduler:
 	export AIRFLOW_HOME=.; \
 	airflow scheduler; \
 
+.PHONY: first-train
+first-train:
+    PYTHONPATH=. python predictor/first_train.py
+
 .PHONY: train
 train:
 	PYTHONPATH=. python predictor/train.py
