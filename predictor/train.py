@@ -26,6 +26,8 @@ count_vect_params = config["count_vect_params"]
 catboost_params = config["catboost_params"]
 
 regression_artifact_path = "regression"
+os.chdir(parent_dir)
+
 
 def save_vocabulary(vocabulary: dict):
     new = vocabulary
