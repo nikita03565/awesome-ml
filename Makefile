@@ -33,7 +33,7 @@ start-airflow-scheduler:
 
 .PHONY: first-train
 first-train:
-    PYTHONPATH=. python predictor/first_train.py
+	PYTHONPATH=. python predictor/first_train.py
 
 .PHONY: train
 train:
@@ -42,6 +42,10 @@ train:
 .PHONY: test-predict
 test-predict:
 	PYTHONPATH=. python predictor/test_predict.py
+
+.PHONY: predict
+predict:
+	PYTHONPATH=. python predictor/predict.py
 
 .PHONY: collect-data
 collect-data:
