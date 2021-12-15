@@ -6,7 +6,6 @@ cd backend
 uvicorn main:app --reload
 ```
 
-
 To start mlflow server use command:
 ```
 make start-mlflow
@@ -15,11 +14,20 @@ make start-mlflow
 Also create `confing.yaml` file in `predictor` directory using contents of `config_example.yaml` file. 
 Change any values as you wish.
 
+Note: `data` dir should be located in project root (for now).
+
+For first train:
+- get train data (135375 rows) from [data link](https://drive.google.com/file/d/1CUFGUZZWPu3BW1_in75HNgoWe_fz078z/view?usp=sharing)
+- create `data_default` in `data` dir
+- use command:
+```
+make first-train
+```
+
 To train model use command:
 ```
 make train
 ```
-Note: `data` dir should be located in project root (for now).
 
 To collect data use command:
 ```

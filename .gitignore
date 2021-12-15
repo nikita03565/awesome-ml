@@ -150,3 +150,5 @@ airflow/
 */config.yaml
 
 */*/predictions
+
+*/vocabulary.json
