@@ -45,8 +45,6 @@ def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv"))
     X_tfIdf = tfidfconverter.fit_transform(X_countVectorizer).toarray()
     X_train, X_test, y_train, y_test = train_test_split(X_tfIdf, y, test_size=0.2, random_state=0)
 
-    run_id = 'be9e06c0b2404bcc9959b14439456d0e'
-
     mlflow.set_tracking_uri(global_config["mlflow_uri"])
     mlflow.set_experiment(config["experiment_name"])
     experiment_id = mlflow.get_experiment_by_name(config["experiment_name"]).experiment_id
