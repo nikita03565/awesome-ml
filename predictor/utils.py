@@ -1,6 +1,6 @@
 import re
 from collections import Counter
-
+import json
 import nltk
 import pandas as pd
 from pymystem3 import Mystem
@@ -113,3 +113,13 @@ def get_production_model_version(model_name):
         if rm.current_stage == "Production":
             return rm.version
     return None
+
+
+def save_vocabulary(vocabulary: dict, vocabulary_path):
+    new = vocabulary
+
+    for k in vocabulary:
+        new[k] = int(vocabulary[k])
+
+    with open(vocabulary_path, "w") as f:
+        f.write(json.dumps(new, ensure_ascii=False))
