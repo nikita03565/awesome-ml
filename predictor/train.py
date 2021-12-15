@@ -51,7 +51,8 @@ def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv"))
     mlflow.set_experiment(config["experiment_name"])
     experiment_id = mlflow.get_experiment_by_name(config["experiment_name"]).experiment_id
 
-    with mlflow.start_run():
+    with mlflow.start_run() as train_run:
+        run_id = train_run.info.run_id
         reg = mlflow.sklearn.load_model(model_uri=predict_config["model_path"]).fit(X_train, y_train)
         y_pred = reg.predict(X_test)
         mse = mean_squared_error(y_test, y_pred)
