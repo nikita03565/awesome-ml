@@ -47,8 +47,8 @@ def train():
     mlflow.set_experiment(config["experiment_name"])
     experiment_id = mlflow.get_experiment_by_name(config["experiment_name"]).experiment_id
 
-    with mlflow.start_run() as train_run:
-        run_id = train_run.info.run_id
+    with mlflow.start_run() as first_run:
+        run_id = first_run.info.run_id
         reg = CatBoostRegressor(iterations=catboost_params['iterations'],
                                 learning_rate=catboost_params['learning_rate'], depth=catboost_params['depth'],
                                 verbose=catboost_params['verbose']).fit(X_train, y_train)
