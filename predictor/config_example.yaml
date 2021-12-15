@@ -1,6 +1,7 @@
 global:
   mlflow_uri: http://localhost:5000
 predict:
+  model_path: /home/tim/PycharmProjects/awesome-ml/predictor/mlflow/2/be9e06c0b2404bcc9959b14439456d0e/artifacts/regression
   version: 9
 train:
   catboost_params:
