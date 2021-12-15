@@ -13,7 +13,7 @@ from predictor.utils import get_version_model
 from predictor.utils import save_vocabulary
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-config_path = os.path.join(parent_dir, "predictor", "config_example.yaml")
+config_path = os.path.join(parent_dir, "predictor", "config.yaml")
 
 local_path = os.path.join(parent_dir, "predictor", "first_train.py")
 vocabulary_path = os.path.join(parent_dir, "predictor", "vocabulary.json")
