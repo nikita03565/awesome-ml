@@ -21,9 +21,11 @@ vocabulary_path = os.path.join(parent_dir, "predictor", "vocabulary.json")
 
 config = yaml.safe_load(open(config_path))["train"]
 global_config = yaml.safe_load(open(config_path))["global"]
+predict_config = yaml.safe_load(open(config_path))["predict"]
 
 count_vect_params = config["count_vect_params"]
 catboost_params = config["catboost_params"]
+os.chdir(parent_dir)
 
 regression_artifact_path = "regression"
 
@@ -52,16 +54,14 @@ def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv"))
 
     mlflow.set_tracking_uri(global_config["mlflow_uri"])
     mlflow.set_experiment(config["experiment_name"])
-
     experiment_id = mlflow.get_experiment_by_name(config["experiment_name"]).experiment_id
 
-    with mlflow.start_run() as train_run:
-        run_id = train_run.info.run_id
-        reg = CatBoostRegressor(iterations=catboost_params['iterations'], learning_rate=catboost_params['learning_rate'], depth=catboost_params['depth'], verbose=catboost_params['verbose']).fit(X_train, y_train)
+    with mlflow.start_run():
+        reg = mlflow.sklearn.load_model(model_uri=predict_config["model_path"]).fit(X_train, y_train)
         y_pred = reg.predict(X_test)
         mse = mean_squared_error(y_test, y_pred)
         mae = mean_absolute_error(y_test, y_pred)
-
+ 
         mlflow.log_metric("mse", mse)
         mlflow.log_metric("mae", mae)
 

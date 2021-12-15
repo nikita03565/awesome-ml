@@ -1,11 +1,9 @@
 global:
   mlflow_uri: http://localhost:5000
 predict:
-  version: 8
+  model_path: /home/tim/PycharmProjects/awesome-ml/predictor/mlflow/2/be9e06c0b2404bcc9959b14439456d0e/artifacts/regression
+  version: 9
 train:
-  data_params:
-    nrows: 200
-    test_size: 0.2
   catboost_params:
     depth: 8
     iterations: 100
@@ -15,5 +13,8 @@ train:
     max_df: 0.7
     max_features: 1000
     min_df: 5
+  data_params:
+    nrows: 200
+    test_size: 0.2
   experiment_name: my_experiment
   model_name: Regression
