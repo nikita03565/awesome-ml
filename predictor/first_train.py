@@ -24,6 +24,7 @@ catboost_params = config["catboost_params"]
 data_params = config['data_params']
 
 data_path = os.path.join(parent_dir, "data", "data_default")
+os.chdir(parent_dir)
 
 
 def train():
