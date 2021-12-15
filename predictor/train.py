@@ -19,9 +19,11 @@ local_path = os.path.join(parent_dir, "predictor", "train.py")
 
 config = yaml.safe_load(open(config_path))["train"]
 global_config = yaml.safe_load(open(config_path))["global"]
+predict_config = yaml.safe_load(open(config_path))["predict"]
 
 count_vect_params = config["count_vect_params"]
 catboost_params = config["catboost_params"]
+os.chdir(parent_dir)
 
 
 def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv")):
@@ -38,9 +40,7 @@ def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv"))
     mlflow.set_tracking_uri(global_config["mlflow_uri"])
     mlflow.set_experiment(config["experiment_name"])
     with mlflow.start_run():
-        reg = CatBoostRegressor(iterations=catboost_params['iterations'], learning_rate=catboost_params['learning_rate'], depth=catboost_params['depth'], verbose=catboost_params['verbose'])
-        reg.load_model('model')
-        reg.fit(X_train, y_train)
+        reg = mlflow.sklearn.load_model(model_uri=predict_config["model_path"]).fit(X_train, y_train)
         y_pred = reg.predict(X_test)
         mse = mean_squared_error(y_test, y_pred)
         mae = mean_absolute_error(y_test, y_pred)
