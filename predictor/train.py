@@ -12,6 +12,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.model_selection import train_test_split
 from predictor.utils import get_version_model
+from predictor.utils import save_vocabulary
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 config_path = os.path.join(parent_dir, "predictor", "config.yaml")
@@ -29,14 +30,6 @@ os.chdir(parent_dir)
 
 regression_artifact_path = "regression"
 
-def save_vocabulary(vocabulary: dict):
-    new = vocabulary
-
-    for k in vocabulary:
-        new[k] = int(vocabulary[k])
-
-    with open(vocabulary_path, "w") as f:
-        f.write(json.dumps(new, ensure_ascii=False))
 
 def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv")):
     df = pd.read_csv(filename)
@@ -44,19 +37,20 @@ def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv"))
     X, y = df_stem["text_stem"], df_stem["rating"]
 
     tfidfconverter = TfidfTransformer()
-    vectorizer = CountVectorizer(max_features=count_vect_params['max_features'], min_df=count_vect_params['min_df'], max_df=count_vect_params['max_df'])
+    with open(vocabulary_path, "r") as f:
+        vocabulary = json.loads(f.read())
+    vectorizer = CountVectorizer(vocabulary=vocabulary, max_features=count_vect_params['max_features'], min_df=count_vect_params['min_df'], max_df=count_vect_params['max_df'])
     X_countVectorizer = vectorizer.fit_transform(X).toarray()
-    save_vocabulary(vectorizer.vocabulary_)
+    save_vocabulary(vectorizer.vocabulary_, vocabulary_path)
     X_tfIdf = tfidfconverter.fit_transform(X_countVectorizer).toarray()
     X_train, X_test, y_train, y_test = train_test_split(X_tfIdf, y, test_size=0.2, random_state=0)
-
-    run_id = ''
 
     mlflow.set_tracking_uri(global_config["mlflow_uri"])
     mlflow.set_experiment(config["experiment_name"])
     experiment_id = mlflow.get_experiment_by_name(config["experiment_name"]).experiment_id
 
-    with mlflow.start_run():
+    with mlflow.start_run() as train_run:
+        run_id = train_run.info.run_id
         reg = mlflow.sklearn.load_model(model_uri=predict_config["model_path"]).fit(X_train, y_train)
         y_pred = reg.predict(X_test)
         mse = mean_squared_error(y_test, y_pred)
