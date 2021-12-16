@@ -13,10 +13,10 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 config_path = os.path.join(parent_dir, "predictor", "config.yaml")
 vocabulary_path = os.path.join(parent_dir, "predictor", "vocabulary.json")
 
-config_path = yaml.safe_load(open(config_path))
-global_config = config_path["global"]
-config = config_path["train"]
-predict_config = config_path["predict"]
+full_config = yaml.safe_load(open(config_path))
+global_config = full_config["global"]
+config = full_config["train"]
+predict_config = full_config["predict"]
 
 count_vect_params = config["count_vect_params"]
 catboost_params = config["catboost_params"]
