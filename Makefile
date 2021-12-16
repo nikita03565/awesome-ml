@@ -37,7 +37,7 @@ first-train:
 
 .PHONY: train
 train:
-	PYTHONPATH=. python3 predictor/train.py
+	PYTHONPATH=. python predictor/train.py
 
 .PHONY: test-predict
 test-predict:
