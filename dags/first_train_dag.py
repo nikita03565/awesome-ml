@@ -27,5 +27,5 @@ with DAG(
     train_path = os.path.join(t, "predictor", "first_train.py")
     t1 = BashOperator(
         task_id='first-train',
-        bash_command=f'PYTHONPATH={t} python {train_path}'
+        bash_command=f'PYTHONPATH={t} python3 {train_path}'
     )

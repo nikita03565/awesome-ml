@@ -30,6 +30,24 @@ os.chdir(parent_dir)
 
 regression_artifact_path = "regression"
 
+def open_vocabulary(vocabulary_path):
+    with open(vocabulary_path, "r") as f:
+        return json.loads(f.read())
+
+def get_metrics(df_new, model):
+    df_start = pd.read_csv(os.path.join(parent_dir, "data", "data_default", "data.csv"))
+    df_start = df_start[["text_stem", "rating"]].dropna()
+    df_start.append(df_new)
+
+    X, y = df_start["text_stem"], df_start["rating"]
+
+    tfidfconverter = TfidfTransformer()
+    vectorizer = CountVectorizer(vocabulary=open_vocabulary(vocabulary_path), max_features=count_vect_params['max_features'], min_df=count_vect_params['min_df'], max_df=count_vect_params['max_df'])
+    X_countVectorizer = vectorizer.fit_transform(X).toarray()
+    X_tfIdf = tfidfconverter.fit_transform(X_countVectorizer).toarray()
+    X_train, X_test, y_train, y_test = train_test_split(X_tfIdf, y, test_size=0.2, random_state=0)
+    y_pred = model.predict(X_test)
+    return [mean_squared_error(y_test, y_pred), mean_absolute_error(y_test, y_pred)]
 
 def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv")):
     df = pd.read_csv(filename)
@@ -37,9 +55,7 @@ def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv"))
     X, y = df_stem["text_stem"], df_stem["rating"]
 
     tfidfconverter = TfidfTransformer()
-    with open(vocabulary_path, "r") as f:
-        vocabulary = json.loads(f.read())
-    vectorizer = CountVectorizer(vocabulary=vocabulary, max_features=count_vect_params['max_features'], min_df=count_vect_params['min_df'], max_df=count_vect_params['max_df'])
+    vectorizer = CountVectorizer(vocabulary=open_vocabulary(vocabulary_path), max_features=count_vect_params['max_features'], min_df=count_vect_params['min_df'], max_df=count_vect_params['max_df'])
     X_countVectorizer = vectorizer.fit_transform(X).toarray()
     save_vocabulary(vectorizer.vocabulary_, vocabulary_path)
     X_tfIdf = tfidfconverter.fit_transform(X_countVectorizer).toarray()
@@ -52,12 +68,11 @@ def train(filename=os.path.join(parent_dir, "data", "prepared", "prepared.csv"))
     with mlflow.start_run() as train_run:
         run_id = train_run.info.run_id
         reg = mlflow.sklearn.load_model(model_uri=predict_config["model_path"]).fit(X_train, y_train)
-        y_pred = reg.predict(X_test)
-        mse = mean_squared_error(y_test, y_pred)
-        mae = mean_absolute_error(y_test, y_pred)
- 
-        mlflow.log_metric("mse", mse)
-        mlflow.log_metric("mae", mae)
+
+        metrics = get_metrics(df_stem, reg)
+
+        mlflow.log_metric("mse", metrics[0])
+        mlflow.log_metric("mae", metrics[1])
 
         mlflow.sklearn.log_model(reg, artifact_path=regression_artifact_path, registered_model_name=config["model_name"])
 
