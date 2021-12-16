@@ -1,0 +1,4 @@
+collect:
+  max_iterations: 10
+  countdown_start: 5000
+  continue_from_files: false
