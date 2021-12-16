@@ -27,25 +27,25 @@ with DAG(
     scraper_path = os.path.join(t, "scraper", "collect.py")
     t1 = BashOperator(
         task_id='run-scraper',
-        bash_command=f'PYTHONPATH={t} python3 {scraper_path}',
+        bash_command=f'PYTHONPATH={t} python {scraper_path}',
     )
 
     parser_path = os.path.join(t, "scraper", "parse.py")
     t2 = BashOperator(
         task_id='run-parser',
-        bash_command=f'PYTHONPATH={t} python3 {parser_path}',
+        bash_command=f'PYTHONPATH={t} python {parser_path}',
     )
 
     prepare_path = os.path.join(t, "predictor", "prepare.py")
     t3 = BashOperator(
         task_id='run-prepare',
-        bash_command=f'PYTHONPATH={t} python3 {prepare_path}',
+        bash_command=f'PYTHONPATH={t} python {prepare_path}',
     )
 
     train_path = os.path.join(t, "predictor", "train.py")
     t4 = BashOperator(
         task_id='run-train',
-        bash_command=f'PYTHONPATH={t} python3 {train_path}',
+        bash_command=f'PYTHONPATH={t} python {train_path}',
     )
 
     t1 >> t2 >> t3 >> t4
