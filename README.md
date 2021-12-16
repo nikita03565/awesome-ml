@@ -11,7 +11,7 @@ To start mlflow server use command:
 make start-mlflow
 ```
 
-Also create `confing.yaml` file in `predictor` directory using contents of `config_example.yaml` file. 
+Also create `confing.yaml` file in `predictor` directory using contents of `config_example.yaml` file. Do the same for config in `scraper` directory. 
 Change any values as you wish.
 
 Note: `data` dir should be located in project root (for now).
